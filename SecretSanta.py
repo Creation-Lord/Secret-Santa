@@ -8,13 +8,12 @@ import random
 import os, codecs
 from os import listdir
 from tkinter import *
-#from PIL import ImageTk, Image
 from sqlite3 import *
 
 # GUI
 gui = Tk()
 gui.title('Secrect Santa Selector') #App Title
-gui.geometry('1000x600') #App Size
+gui.geometry('800x450') #App Size
 
 # Image
 image = Canvas(gui, width = '800', height = '400') #Image Size
@@ -27,10 +26,6 @@ entry = Entry(gui, width = '100', bd = 3, relief = 'groove') #Entry Data
 entry.insert(0,'Enter names here, keeping each name separated only by a coma.(eg: "Sam,Dean,Jack,Cas,Mary,Bobby,Charlie,Kevin,Crowley")') #Default Text
 entry.grid(row = 2, column = 1) #Entry Position
 
-# Define Our Images
-on = PhotoImage(file = "on.png")
-off = PhotoImage(file = "off.png")
-
 # Functions
 def paste(length, order, charades): #The function used in testing to see that all names are there and lined up correctly
 	i = 0
@@ -39,7 +34,7 @@ def paste(length, order, charades): #The function used in testing to see that al
 		i += 1
 	print(order[i] + ' is giving to ' + order[0])
 
-def text(length, order, charades): #Creates the text files that can be used to allow complete 
+def text(length, order): #Creates the text files with the title of the buyer and contains the name of the buyee
         folder_path = os.path.dirname(os.path.abspath('SecretSanta.py')) + '\Txt Files'
         if not os.path.exists(folder_path):
                 os.makedirs(folder_path)
@@ -93,3 +88,4 @@ clear.grid(row = 2, column = 3)
 
 
 gui.mainloop()
+
