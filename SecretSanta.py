@@ -35,7 +35,7 @@ def paste(length, order, charades): #The function used in testing to see that al
 	print(order[i] + ' is giving to ' + order[0])
 
 def text(length, order): #Creates the text files with the title of the buyer and contains the name of the buyee
-        folder_path = os.path.dirname(os.path.abspath('SecretSanta.py')) + '\Txt Files'
+        folder_path = os.path.dirname(os.path.abspath('SecretSanta.py')) + '\\Txt Files'
         if not os.path.exists(folder_path):
                 os.makedirs(folder_path)
         for file_name in listdir(folder_path):
@@ -75,7 +75,7 @@ def process(): #Main function that runs on button call
         text(length, order)
 
 def clear():
-        folder_path = os.path.dirname(os.path.abspath('SecretSanta.py')) + '\Txt Files'
+        folder_path = os.path.dirname(os.path.abspath('SecretSanta.py')) + '\\Txt Files'
         for file_name in listdir(folder_path):
                 if file_name.endswith('.txt'):
                         os.remove(folder_path + '\\' + file_name)
@@ -88,4 +88,5 @@ clear.grid(row = 2, column = 3)
 
 
 gui.mainloop()
+
 
