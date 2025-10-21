@@ -23,11 +23,11 @@ image.create_image(0.01, 0.01, anchor = NW, image = img) #Image Data
 
 # Entry box
 entry = Entry(gui, width = '100', bd = 3, relief = 'groove') #Entry Data
-entry.insert(0,'Enter names here, keeping each name separated only by a coma.(eg: "Sam,Dean,Jack,Cas,Mary,Bobby,Charlie,Kevin,Crowley")') #Default Text
+entry.insert(0,'Enter names here,separating each name by a coma.(eg: "Sam, Dean , Jack,Cas ")') #Default Text
 entry.grid(row = 2, column = 1) #Entry Position
 
 # Functions
-def paste(length, order, charades): #The function used in testing to see that all names are there and lined up correctly
+def paste(length, order): #The function used in testing to see that all names are there and lined up correctly
 	i = 0
 	while(i<length-1):
 		print(order[i] + ' is giving to ' + order[i+1])
@@ -51,13 +51,14 @@ def text(length, order): #Creates the text files with the title of the buyer and
         f.write('You are buying for ' + order[0])
         f.close()
 
-def process(): #Main function that runs on button call
+def process(): #Main function that runs on button press
         names = entry.get()+ ' '
         people = []
         flag = 0
-        for x in range(names.count(',')+1):
-                people.append(names[flag:names.find(',',flag,len(names)-1)])
-                flag = names.find(',',flag,len(names)-1) + 1
+        for x in range(names.count(',')+1): #Takes the part of string leading up to the next ',' and adds it to the array 'people'
+                people.append(names[flag:names.find(',',flag)])
+                people[-1] = people[-1].strip()
+                flag = names.find(',',flag) + 1
         order = []
         length = len(people) #Cause it's just easier to see
         
@@ -88,5 +89,3 @@ clear.grid(row = 2, column = 3)
 
 
 gui.mainloop()
-
-
