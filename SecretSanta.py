@@ -27,38 +27,15 @@ entry = Entry(gui, width = '100', bd = 3, relief = 'groove') #Entry Data
 entry.insert(0,'Enter names here, keeping each name separated only by a coma.(eg: "Sam,Dean,Jack,Cas,Mary,Bobby,Charlie,Kevin,Crowley")') #Default Text
 entry.grid(row = 2, column = 1) #Entry Position
 
-# Charades Toggle
-charadesState = True
-
-charadesLabel = Label(gui, text = "Charades Options", fg = "green", font = ("Times New Roman", 16))
-charadesLabel.grid(row = 3, column = 2)
-
-# Switch
-def switch():
-    global charadesState
-     
-    # Determine is on or off
-    if charadesState:
-        charadesButton.config(image = off)
-        charadesState = False
-
-    else:
-        charadesButton.config(image = on)
-        charadesState = True
-
 # Define Our Images
 on = PhotoImage(file = "on.png")
 off = PhotoImage(file = "off.png")
- 
-# Create A Button
-charadesButton = Button(gui, image = on, bd = 0, command = switch)
-charadesButton.grid(row = 3, column = 3)
 
 # Functions
 def paste(length, order, charades): #The function used in testing to see that all names are there and lined up correctly
 	i = 0
 	while(i<length-1):
-		print(order[i] + ' is giving to ' + order[i+1] + '\nYour charade options are ' + str(charades[i]))
+		print(order[i] + ' is giving to ' + order[i+1])
 		i += 1
 	print(order[i] + ' is giving to ' + order[0])
 
@@ -72,13 +49,11 @@ def text(length, order, charades): #Creates the text files that can be used to a
         i = 0
         while(i<length-1):
                 f = open(folder_path + '\\' + order[i] + '.txt','w')
-                if charadesState == True: f.write('You are buying for ' + order[i+1] + '\nYour charade options are ' + str(charades[i]))
-                else: f.write('You are buying for ' + order[i+1])
+                f.write('You are buying for ' + order[i+1])
                 f.close()
                 i += 1
         f = open(folder_path + '\\' + order[i] + '.txt','w')
-        if charadesState == True: f.write('You are buying for ' + order[0] + '\nYour charade options are ' + str(charades[i]))
-        else: f.write('You are buying for ' + order[0])
+        f.write('You are buying for ' + order[0])
         f.close()
 
 def process(): #Main function that runs on button call
@@ -101,25 +76,8 @@ def process(): #Main function that runs on button call
                         if(order[randomnum2] == ''): #Test to make sure an index is not overwritten while not increasing the loop count
                                 order[randomnum2] = people.pop(randomnum1)
                                 break
-        
-        # Charades Option
-        charades = []
-        if charadesState == True:
-                connection = connect(database = 'Charades.db')
-                database = connection.cursor()
-                for x in range(length+1):
-                        options = []
-                        for y in range(3):
-                                randomnum = random.randint(1,80)
-                                database.execute("SELECT charade FROM list WHERE number LIKE " + str(randomnum) + ";")
-                                for data in database.fetchall():
-                                        charade = str(data)
-                                        options.append(charade[2:len(charade)-3])
-                                print('o is ' + str(options))
-                        charades.append(options)
-                        print('c is ' + str(charades))
 
-        text(length, order, charades)
+        text(length, order)
 
 def clear():
         folder_path = os.path.dirname(os.path.abspath('SecretSanta.py')) + '\Txt Files'
@@ -132,5 +90,6 @@ run = Button(gui, width = '5', height = '1', text = 'Run', command = process)
 run.grid(row = 2, column = 2)
 clear = Button(gui, width = '8', height = '1', text = 'Clear Files', command = clear)
 clear.grid(row = 2, column = 3)
+
 
 gui.mainloop()
